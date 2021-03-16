@@ -53,6 +53,7 @@ export const Popup = forwardRef<PopupActions, PopupProps>(
       overlayStyle = {},
       className = '',
       position = 'bottom center',
+      fixed = false,
       modal = false,
       lockScroll = false,
       arrow = true,
@@ -177,8 +178,8 @@ export const Popup = forwardRef<PopupActions, PopupProps>(
         },
         keepTooltipInside
       );
-      contentRef.current.style.top = `${cords.top + window.pageYOffset}px`;
-      contentRef.current.style.left = `${cords.left + window.pageXOffset}px`;
+      contentRef.current.style.top = `${cords.top + (fixed ? 0 : window.pageYOffset)}px`;
+      contentRef.current.style.left = `${cords.left + (fixed ? 0 : window.pageXOffset)}px`;
       if (arrow && !!arrowRef.current) {
         arrowRef.current.style.transform = cords.transform;
         arrowRef.current.style.setProperty('-ms-transform', cords.transform);
@@ -242,6 +243,8 @@ export const Popup = forwardRef<PopupActions, PopupProps>(
         ? styles.popupContent.modal
         : styles.popupContent.tooltip;
 
+      const position = fixed ? 'fixed' : popupContentStyle.position;
+
       const childrenElementProps: any = {
         className: `popup-content ${
           className !== ''
@@ -254,6 +257,7 @@ export const Popup = forwardRef<PopupActions, PopupProps>(
         style: {
           ...popupContentStyle,
           ...contentStyle,
+          position,
           pointerEvents: 'auto', //closeOnDocumentClick && nested ? 'auto' : 'none',
         },
         ref: contentRef,

@@ -35,6 +35,7 @@ export interface PopupProps {
   offsetX?: number;
   offsetY?: number;
   arrow?: boolean;
+  fixed?: boolean;
   modal?: boolean;
   lockScroll?: boolean;
   closeOnDocumentClick?: boolean;
